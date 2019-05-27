@@ -9,6 +9,7 @@ type Course {
     endDate: String!
     availableSeats: Int!
     maximumSeats: Int!
+    students: [Student!]!
 }
 
 type Student {
@@ -17,7 +18,7 @@ type Student {
     lastName: String!
     age: Int!
     email: String!
-    courses: [Course]!
+    courses: [Course!]!
 }
 
 type CourseRegistration {

@@ -1,13 +1,14 @@
 const CourseRegistration = require("../../models/CourseRegistration");
 const Student = require("../../models/Student");
 const Course = require("../../models/Course");
+const { transformCourseRegistration } = require("./merge");
 
 module.exports = {
   courseRegistrations: async (_, req) => {
     try {
       const courseRegistrations = await CourseRegistration.find();
       return courseRegistrations.map(courseRegistration => {
-        return { ...courseRegistration, id: courseRegistration.id };
+        return transformCourseRegistration(courseRegistration);
       });
     } catch (err) {
       throw err;
