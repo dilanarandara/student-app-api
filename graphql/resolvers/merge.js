@@ -1,9 +1,19 @@
+const DataLoader = require("dataloader");
+
 const Course = require("../../models/Course");
 const Student = require("../../models/Student");
 
+const studentLoader = new DataLoader(studentIds => {
+  return Student.find({ _id: { $in: studentIds } });
+});
+
+const courseLoader = new DataLoader(courseIds => {
+  return Course.find({ _id: { $in: courseIds } });
+});
+
 const singleStudent = async studentId => {
   try {
-    const obj = await Student.findById(studentId);
+    const obj = await studentLoader.load(studentId.toString());
     return { ...obj._doc, id: obj.id };
   } catch (err) {
     throw err;
@@ -12,7 +22,7 @@ const singleStudent = async studentId => {
 
 const singleCourse = async courseId => {
   try {
-    const obj = await Course.findById(courseId);
+    const obj = await courseLoader.load(courseId.toString());
     return transformCourse(obj);
   } catch (err) {
     throw err;
